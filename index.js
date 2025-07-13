@@ -44,9 +44,9 @@ async function run() {
       const query = { _id: new ObjectId(id) };
       const options = {
         // Include only the `title` and `imdb` fields in the returned document
-        projection: { _id: 0, title: 1, imdb: 1 },
+        projection: { title: 1, price: 1, service_id: 1 },
       };
-      const result = await serviceCollection.findOne(query);
+      const result = await serviceCollection.findOne(query, options);
       res.send(result);
     });
 
