@@ -16,10 +16,11 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: ["http://localhost:5174"],
+    origin: ["http://localhost:5173", "http://localhost:5000"], // ✅ Add correct frontend ports
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.deuak1h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -44,17 +45,18 @@ async function run() {
     //auth related api
     app.post("/jwt", async (req, res) => {
       const user = req.body;
-      console.log(user);
+
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIN: "1h",
+        expiresIn: "1h",
       });
 
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "none",
+        secure: false, // Set true in production with HTTPS
+        sameSite: "Lax", // Use "none" only with secure: true
       });
-      send({ success: true });
+
+      res.send({ success: true });
     });
 
     //service
