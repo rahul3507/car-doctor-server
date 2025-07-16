@@ -44,7 +44,12 @@ async function run() {
         expiresIN: "1h",
       });
 
-      res.send(token);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "none",
+      });
+      send({ success: true });
     });
 
     //service
