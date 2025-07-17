@@ -53,8 +53,9 @@ const verifyToken = async (req, res, next) => {
 
     //if token is valid then it would be decoded
     console.log("value in the token", decoded);
+    req.user = decoded;
+    next();
   });
-  next();
 };
 
 async function run() {
