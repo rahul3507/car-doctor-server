@@ -45,6 +45,15 @@ const verifyToken = async (req, res, next) => {
   if (!token) {
     return res.status(401).send({ message: "not authorized" });
   }
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    //error
+    if (err) {
+      return res.status(401).send({ message: "unauthorized" });
+    }
+
+    //if token is valid then it would be decoded
+    console.log("value in the token", decoded);
+  });
   next();
 };
 
