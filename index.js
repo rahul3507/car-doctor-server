@@ -93,7 +93,7 @@ async function run() {
 
     //bookings
 
-    app.get("/bookings", logger, async (req, res) => {
+    app.get("/bookings", logger, verifyToken, async (req, res) => {
       let query = {};
       if (req.query?.email) {
         query = { email: req.query.email };
