@@ -48,7 +48,7 @@ async function run() {
     const bookingCollection = client.db("carDoctor").collection("bookings");
 
     //auth related api
-    app.post("/jwt", async (req, res) => {
+    app.post("/jwt", logger, async (req, res) => {
       const user = req.body;
 
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -65,7 +65,7 @@ async function run() {
     });
 
     //service
-    app.get("/services", async (req, res) => {
+    app.get("/services", logger, async (req, res) => {
       const cursor = serviceCollection.find();
       const result = await cursor.toArray();
       res.send(result);
@@ -84,7 +84,7 @@ async function run() {
 
     //bookings
 
-    app.get("/bookings", async (req, res) => {
+    app.get("/bookings", logger, async (req, res) => {
       let query = {};
       if (req.query?.email) {
         query = { email: req.query.email };
