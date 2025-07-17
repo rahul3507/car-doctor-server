@@ -33,6 +33,11 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+//middlewares
+const logger = async (req, res, next) => {
+  console.log("called", req.host, req.originalUrl);
+  next();
+};
 
 async function run() {
   try {
