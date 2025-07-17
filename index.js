@@ -48,7 +48,7 @@ const verifyToken = async (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     //error
     if (err) {
-      return res.status(401).send({ message: "unauthorized" });
+      return res.status(401).send({ message: "unauthorized access" });
     }
 
     //if token is valid then it would be decoded
@@ -104,6 +104,10 @@ async function run() {
     //bookings
 
     app.get("/bookings", logger, verifyToken, async (req, res) => {
+      if (req.query.email !== req.user.email) {
+        return res.status(403).send({ message: "forbidden access" });
+      }
+
       let query = {};
       if (req.query?.email) {
         query = { email: req.query.email };
